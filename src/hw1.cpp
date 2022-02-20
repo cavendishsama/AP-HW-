@@ -65,6 +65,11 @@ namespace algebra
 
     //multiply
     Matrix multiply(const Matrix& matrix, double c){
+        if(matrix.empty()){
+           Matrix mult{}; 
+           return mult;        
+        }      
+
         long unsigned int rows{ matrix.size() };            //number of rows in matrix
         long unsigned int columns{ matrix[0].size() };      //number of columns in matrix
 
@@ -195,7 +200,7 @@ namespace algebra
         if (matrix.empty() == true) {
             return matrix;
         }
-
+        //minor_matrix = zeros(matris.size(), matrix[0].size);
         for(size_t k{}; k < matrix.size() - 1; k++){
             minor_matrix.push_back(std::vector<double>());
             for(size_t p{}; p < matrix[0].size() - 1; p++)
@@ -244,6 +249,7 @@ namespace algebra
         }
         else
         {
+            //finding minor matrix -- we could have used minor function too
             for (int p = 0; p < matrix[0].size(); p++)
             {
                 Matrix TempMatrix; 
@@ -260,6 +266,7 @@ namespace algebra
                     if (TempRow.size() > 0)
                         TempMatrix.push_back(TempRow);
                 }
+                //we'll put the minor matrix in determinant function again till it becomes a 2*2 matrix
                 det = det + matrix[0][p] * pow(-1, p) * determinant(TempMatrix);
             }
             return det;
